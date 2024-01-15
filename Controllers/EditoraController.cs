@@ -11,12 +11,39 @@ namespace LibraryAPI {
         public EditoraController() {
 
             editoras ??= [];
-            // carga inicial
+            CargaInicial();
+        }
+
+        void CargaInicial() {
+            editoras.Add(new Editora(505, "Hrecords"));
+            editoras.Add(new Editora(506, "Wrecords"));
         }
 
         [HttpGet]
         public List<Editora> GetEditoras() {
             return editoras;
+        }
+
+        [HttpGet("byId/{Id}")]
+        public IActionResult GetEditoraID(int Id) {
+            foreach(Editora e in editoras)
+            {
+                if(e.Id == Id)
+                    return Ok(e);
+            }
+
+            return NotFound("Editora não encontrada");
+        }
+
+        [HttpGet("byName/{Nome}")]
+        public IActionResult GetEditoraNome(string Nome) {
+            foreach(Editora e in editoras) {
+                if(e.Nome == Nome) {
+                    return Ok(e);
+                }
+            }
+
+            return NotFound("Editora não encontrada");
         }
 
         [HttpPost("{Id}/{Nome}")]
@@ -58,10 +85,10 @@ namespace LibraryAPI {
                     
                 }
                 else {
-                    throw new LivroException("A editora não foi encontrada");
+                    throw new EditoraException("A editora não foi encontrada");
                 }
             } 
-            catch(LivroException l) {
+            catch(EditoraException l) {
                 System.Console.WriteLine($"Erro: {l.alternativa}");
                 return editoras;
             }

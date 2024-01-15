@@ -11,12 +11,39 @@ namespace LibraryAPI {
         public AutorController() {
 
             autores ??= [];
-            // carga inicial
+            CargaInicial();
+        }
+
+        void CargaInicial() {
+            autores.Add(new Autor(1001, "RR"));
+            autores.Add(new Autor(1002, "WW"));
         }
 
         [HttpGet]
         public List<Autor> GetAutores() {
             return autores;
+        }
+
+        [HttpGet("byId/{Id}")]
+        public IActionResult GetAutorID(int Id) {
+            foreach(Autor a in autores)
+            {
+                if(a.Id == Id)
+                    return Ok(a);
+            }
+
+            return NotFound("Autor não encontrado");
+        }
+
+        [HttpGet("byName/{Nome}")]
+        public IActionResult GetAutorNome(string Nome) {
+            foreach(Autor a in autores) {
+                if(a.Nome == Nome) {
+                    return Ok(a);
+                }
+            }
+
+            return NotFound("Autor não encontrado");
         }
 
         [HttpPost("{Id}/{Nome}")]

@@ -11,12 +11,39 @@ namespace LibraryAPI {
         public LivroController() {
 
             livros ??= [];
-            // carga inicial
+            CargaInicial();
+        }
+
+        void CargaInicial() {
+            livros.Add(new Livro(1, "Hello", 2000, 1001, 505));
+            livros.Add(new Livro(2, "World", 2001, 1002, 506));
         }
 
         [HttpGet]
         public List<Livro> GetLivros() {
             return livros;
+        }
+
+        [HttpGet("byId/{Id}")]
+        public IActionResult GetLivroID(int Id) {
+            foreach(Livro l in livros)
+            {
+                if(l.Id == Id)
+                    return Ok(l);
+            }
+
+            return NotFound("Livro não encontrado");
+        }
+
+        [HttpGet("byTitle/{Titulo}")]
+        public IActionResult GetLivroTitulo(string Titulo) {
+            foreach(Livro l in livros) {
+                if(l.Titulo == Titulo) {
+                    return Ok(l);
+                }
+            }
+
+            return NotFound("Livro não encontrado");
         }
 
         [HttpPost("{Id}/{Titulo}/{AnoPublicacao}/{AutorId}/{EditoraId}")]
@@ -41,10 +68,10 @@ namespace LibraryAPI {
                 }
             } catch (LivroException e) {
                 Console.WriteLine($"Erro: {e.alternativa}");
-                return livros; 
+                return livros;
             } catch (Exception ex) {
                 Console.WriteLine($"Erro inesperado: {ex.Message}");
-                return livros; 
+                return livros;
             }
         }
 
@@ -56,12 +83,12 @@ namespace LibraryAPI {
                 if (livro != null) {
                     livros.Remove(livro);
                     return livros;
-                    
+
                 }
                 else {
                     throw new LivroException("O livro não foi encontrado");
                 }
-            } 
+            }
             catch(LivroException l) {
                 System.Console.WriteLine($"Erro: {l.alternativa}");
                 return livros;
@@ -70,7 +97,7 @@ namespace LibraryAPI {
                 Console.WriteLine($"Erro inesperado: {e.Message}");
                 return livros;
             }
-                
+
         }
     }
 }
