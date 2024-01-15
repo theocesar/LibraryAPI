@@ -11,7 +11,6 @@ class AutorException : ApplicationException {
 public class Autor {
     public int Id { get; set; }
     public string Nome { get; set; }
-    public List<Livro> Livros { get; set; }
 
     public Autor() {
 
@@ -20,6 +19,5 @@ public class Autor {
     public Autor(int Id, string Nome) {
         this.Id = Id;
         this.Nome = Nome;
-        Livros = [];
     }
 }
