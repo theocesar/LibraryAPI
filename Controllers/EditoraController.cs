@@ -26,16 +26,50 @@ namespace LibraryAPI {
             return editoras;
         }
 
-        [HttpPost("byId/{Id}")]
+        [HttpPut("byId/{Id}")]
         public List<Editora> AtualizarEditora(int Id, string novoNome) {
 
-            foreach(Editora e in editoras) {
-                if (e.Id == Id) {
-                    e.Nome = novoNome;
+             try {
+                Editora ?editora = editoras.Find(l => l.Id == Id);
+
+                if (editora != null) {
+                    editora.Nome = novoNome;
                     return editoras;
+                } else {
+                    throw new EditoraException("A editora não foi encontrada.");
                 }
+            } catch (EditoraException e) {
+                Console.WriteLine($"Erro: {e.alternativa}");
+                return editoras; 
+            } catch (Exception ex) {
+                Console.WriteLine($"Erro inesperado: {ex.Message}");
+                return editoras; 
             }
-            throw new EditoraException("A editora não existe");
+        }
+
+        [HttpDelete("{id:int}")]
+        public List<Editora> RemoverEditora(int Id) {
+
+            try {
+                Editora ?editora = editoras.Find(l => l.Id == Id);
+                if (editora != null) {
+                    editoras.Remove(editora);
+                    return editoras;
+                    
+                }
+                else {
+                    throw new LivroException("A editora não foi encontrada");
+                }
+            } 
+            catch(LivroException l) {
+                System.Console.WriteLine($"Erro: {l.alternativa}");
+                return editoras;
+            }
+            catch(Exception e) {
+                Console.WriteLine($"Erro inesperado: {e.Message}");
+                return editoras;
+            }
+                
         }
     }
 }

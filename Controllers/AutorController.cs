@@ -26,16 +26,50 @@ namespace LibraryAPI {
             return autores;
         }
 
-        [HttpPost("byId/{Id}")]
+        [HttpPut("byId/{Id}")]
         public List<Autor> AtualizarAutor(int Id, string novoNome) {
 
-            foreach(Autor a in autores) {
-                if (a.Id == Id) {
-                    a.Nome = novoNome;
+            try {
+                Autor ?autor = autores.Find(l => l.Id == Id);
+
+                if (autor != null) {
+                    autor.Nome = novoNome;
                     return autores;
+                } else {
+                    throw new AutorException("O autor não foi encontrado.");
                 }
+            } catch (AutorException e) {
+                Console.WriteLine($"Erro: {e.alternativa}");
+                return autores; 
+            } catch (Exception ex) {
+                Console.WriteLine($"Erro inesperado: {ex.Message}");
+                return autores; 
             }
-            throw new AutorException("O autor não existe");
+        }
+
+        [HttpDelete("{id:int}")]
+        public List<Autor> RemoverAutor(int Id) {
+
+            try {
+                Autor ?autor = autores.Find(l => l.Id == Id);
+                if (autor != null) {
+                    autores.Remove(autor);
+                    return autores;
+                    
+                }
+                else {
+                    throw new AutorException("O autor não foi encontrado");
+                }
+            } 
+            catch(AutorException l) {
+                System.Console.WriteLine($"Erro: {l.alternativa}");
+                return autores;
+            }
+            catch(Exception e) {
+                Console.WriteLine($"Erro inesperado: {e.Message}");
+                return autores;
+            }
+                
         }
     }
 }

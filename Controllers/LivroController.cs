@@ -26,17 +26,51 @@ namespace LibraryAPI {
             return livros;
         }
 
-        [HttpPost("byId/{Id}")]
-        public List<Livro> AtualizarLivro(int Id, string atualização, int novoAno) {
+        [HttpPut("byId/{Id}")]
+        public List<Livro> AtualizarLivro(int Id, string atualizacao, int novoAno) {
 
-            foreach(Livro l in livros) {
-                if (l.Id == Id) {
-                    l.Titulo = atualização;
-                    l.AnoPublicacao = novoAno;
+            try {
+                Livro ?livro = livros.Find(l => l.Id == Id);
+
+                if (livro != null) {
+                    livro.Titulo = atualizacao;
+                    livro.AnoPublicacao = novoAno;
                     return livros;
+                } else {
+                    throw new LivroException("O livro não foi encontrado.");
                 }
+            } catch (LivroException e) {
+                Console.WriteLine($"Erro: {e.alternativa}");
+                return livros; 
+            } catch (Exception ex) {
+                Console.WriteLine($"Erro inesperado: {ex.Message}");
+                return livros; 
             }
-            throw new LivroException("O livro não existe");
+        }
+
+        [HttpDelete("{id:int}")]
+        public List<Livro> RemoverLivro(int Id) {
+
+            try {
+                Livro ?livro = livros.Find(l => l.Id == Id);
+                if (livro != null) {
+                    livros.Remove(livro);
+                    return livros;
+                    
+                }
+                else {
+                    throw new LivroException("O livro não foi encontrado");
+                }
+            } 
+            catch(LivroException l) {
+                System.Console.WriteLine($"Erro: {l.alternativa}");
+                return livros;
+            }
+            catch(Exception e) {
+                Console.WriteLine($"Erro inesperado: {e.Message}");
+                return livros;
+            }
+                
         }
     }
 }
