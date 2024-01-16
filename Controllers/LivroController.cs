@@ -19,7 +19,7 @@ namespace LibraryAPI {
             livros.Add(new Livro(2, "World", 2001, 1002, 506));
         }
 
-        [HttpGet]
+        [HttpGet]   
         public List<Livro> GetLivros() {
             return livros;
         }

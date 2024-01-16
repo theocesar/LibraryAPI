@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Components.Forms;
+
 namespace LibraryAPI;
 
 class LivroException : ApplicationException {
@@ -16,6 +18,7 @@ public class Livro {
     public int AutorId { get; set; }
     public int EditoraId { get; set; }
 
+    
     public Livro() {
 
     }
@@ -26,5 +29,6 @@ public class Livro {
         this.AnoPublicacao = AnoPublicacao;
         this.AutorId = AutorId;
         this.EditoraId = EditoraId;
+        
     }
 }
