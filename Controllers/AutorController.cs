@@ -57,6 +57,7 @@ namespace LibraryAPI {
         public List<Autor> AtualizarAutor(int Id, string novoNome) {
 
             try {
+                // Finding the autor by the ID
                 Autor ?autor = autores.Find(l => l.Id == Id);
 
                 if (autor != null) {
@@ -78,6 +79,7 @@ namespace LibraryAPI {
         public List<Autor> RemoverAutor(int Id) {
 
             try {
+                // Finding the autor by the ID
                 Autor ?autor = autores.Find(l => l.Id == Id);
                 if (autor != null) {
                     autores.Remove(autor);

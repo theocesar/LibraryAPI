@@ -57,6 +57,7 @@ namespace LibraryAPI {
         public List<Editora> AtualizarEditora(int Id, string novoNome) {
 
              try {
+                // Finding the book publisher by the ID
                 Editora ?editora = editoras.Find(l => l.Id == Id);
 
                 if (editora != null) {
@@ -78,6 +79,7 @@ namespace LibraryAPI {
         public List<Editora> RemoverEditora(int Id) {
 
             try {
+                // Finding the book publisher by the ID
                 Editora ?editora = editoras.Find(l => l.Id == Id);
                 if (editora != null) {
                     editoras.Remove(editora);

@@ -57,6 +57,7 @@ namespace LibraryAPI {
         public List<Livro> AtualizarLivro(int Id, string atualizacao, int novoAno) {
 
             try {
+                // Finding the book by the ID
                 Livro ?livro = livros.Find(l => l.Id == Id);
 
                 if (livro != null) {
@@ -79,6 +80,7 @@ namespace LibraryAPI {
         public List<Livro> RemoverLivro(int Id) {
 
             try {
+                // Finding the book by the ID
                 Livro ?livro = livros.Find(l => l.Id == Id);
                 if (livro != null) {
                     livros.Remove(livro);
